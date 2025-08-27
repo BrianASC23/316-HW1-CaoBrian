@@ -388,11 +388,11 @@ export default class PlaylisterModel {
 
 
     /**
-     * Add New Playlist with the Name Being "Untitled" 
+     * Add New Playlist with the Name Being "Untitled"
      */
 
     addPlayList(){
-        let playlistBuilder = new PlaylistBuilder;
+        let playlistBuilder = PlaylistBuilder.getSingleton();
         let newList = playlistBuilder.buildNewPlaylist("Untitled");
         return this.addList(newList)
 

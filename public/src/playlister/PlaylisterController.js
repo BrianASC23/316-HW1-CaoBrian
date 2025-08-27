@@ -99,8 +99,8 @@ export default class PlaylisterController {
         }
     }
 
-    // Listening for if a user clicks on the "Add" button for playlist.
     registerNewPlaylistHandler() {
+        // Listening for if a user clicks on the "Add" button for playlist.
         document.getElementById("add-playlist-button").onclick = (event) => {
             this.model.addPlayList();
         }
@@ -116,6 +116,15 @@ export default class PlaylisterController {
      * to register event handling.
     */
     registerPlaylistCardHandlers(id) {
+        // Handles Duplicating a List
+        document.getElementById("duplicate-list-button-" + id).onmousedown = (event) => {
+            //Don't propogate this interaction to lower-level controls
+            this.ignoreParentClick(event)
+
+            // Duplicate the list
+            this.model.duplicateList(id);
+        }
+
         // HANDLES SELECTING A PLAYLIST
         document.getElementById("playlist-card-" + id).onmousedown = (event) => {
             if (!this.model.isListNameBeingChanged()) {
