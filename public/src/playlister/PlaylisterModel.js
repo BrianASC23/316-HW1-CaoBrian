@@ -8,16 +8,16 @@ import PlaylistBuilder from './PlaylistBuilder.js';
 
 /**
  * PlaylisterModel.js
- * 
+ *
  * This class manages all playlist data for updating and accessing songs
  * as well as for loading and unloading lists. Note that editing should employ
  * an undo/redo mechanism for any editing features that change a loaded list
  * should employ transactions the jsTPS.
- * 
+ *
  * Note that we are employing a Model-View-Controller (MVC) design strategy
  * here so that when data in this class changes it is immediately reflected
  * inside the view of the page.
- * 
+ *
  * @author McKilla Gorilla
  */
 export default class PlaylisterModel {
@@ -46,10 +46,10 @@ export default class PlaylisterModel {
      * Adds an initialized list, which could be a brand new list or one loaded from a file. Once
      * added the view will be notified such that it is rendered in the UI. Note, it will be added
      * in sorted order by name.
-     * 
+     *
      * @param {Playlist} listToAdd List to add such that the user may view or edit it.
      * @return {Playlist} The list that was added.
-     */    
+     */
     addList(listToAdd) {
         this.playlists.push(listToAdd);
         this.sortLists();
@@ -59,7 +59,7 @@ export default class PlaylisterModel {
 
     /**
      * Creates and adds a new list, assigning it a unique id number.
-     * 
+     *
      * @param {string} initName Name of the list to add.
      * @param {string} initSongs Songs in the playlist to add.
      * @return {Playlist} The list that was added.
@@ -80,7 +80,7 @@ export default class PlaylisterModel {
         let appendIndex = this.getPlaylistSize();
         let transaction = new CreateSong_Transaction(this, appendIndex, song);
         this.tps.processTransaction(transaction);
-        this.view.updateToolbarButtons(this.hasCurrentList(), 
+        this.view.updateToolbarButtons(this.hasCurrentList(),
                             this.confirmDialogOpen, this.tps.hasTransactionToDo(), this.tps.hasTransactionToUndo());
     }
 
@@ -93,20 +93,20 @@ export default class PlaylisterModel {
     addTransactionToMoveSong(fromIndex, onIndex) {
         let transaction = new MoveSong_Transaction(this, fromIndex, onIndex);
         this.tps.processTransaction(transaction);
-        this.view.updateToolbarButtons(this.hasCurrentList(), 
+        this.view.updateToolbarButtons(this.hasCurrentList(),
                             this.confirmDialogOpen, this.tps.hasTransactionToDo(), this.tps.hasTransactionToUndo());
     }
 
     /**
      * Adds an undoable transaction for removing a song to the transaction stack.
-     * 
+     *
      * @param {number} index The index of the transaction to remove
      */
     addTransactionToRemoveSong(index) {
         let song = this.getSong(index);
         let transaction = new RemoveSong_Transaction(this, index, song);
         this.tps.processTransaction(transaction);
-        this.view.updateToolbarButtons(this.hasCurrentList(), 
+        this.view.updateToolbarButtons(this.hasCurrentList(),
                             this.confirmDialogOpen, this.tps.hasTransactionToDo(), this.tps.hasTransactionToUndo());
     }
 
@@ -114,7 +114,7 @@ export default class PlaylisterModel {
      * Inserts the song argument into the playlist at index. Note, after being placed
      * this will rerendering the user interface to reflect the new song and will also
      * save the changes to local storage.
-     * 
+     *
      * @param {number} index The location in the playlist to place the song
      * @param {PlaylistSongPrototype} song The song to place in the playlist
      */
@@ -126,7 +126,7 @@ export default class PlaylisterModel {
 
     /**
      * Deletes the list with the provided id and updates the UI to reflect the change.
-     * 
+     *
      * @param {number} id The id of the list to delete.
      */
     deleteList(id) {
@@ -154,7 +154,7 @@ export default class PlaylisterModel {
 
     /**
      * Accessor method for getting the playlist at index
-     * 
+     *
      * @param {number} index The numeric index of the playlist to retrieve
      */
     getList(index) {
@@ -164,7 +164,7 @@ export default class PlaylisterModel {
     /**
      * Accessor method for getting the index of the list to delete. This is used
      * during the modal verification.
-     * 
+     *
      * @return {number} The id of the list being deleted.
      */
     getDeleteListId() {
@@ -173,7 +173,7 @@ export default class PlaylisterModel {
 
     /**
      * Accessor method for getting the index of the list with id
-     * 
+     *
      * @param {number} id The id of the list to find
      * @return {number} Index of the playlist with id
      */
@@ -189,7 +189,7 @@ export default class PlaylisterModel {
 
     /**
      * Accessor method for getting the playlist with id
-     * 
+     *
      * @param {number} id The id of the playlist to retrieve
      * @return {Playlist} The playlist with id
      */
@@ -203,7 +203,7 @@ export default class PlaylisterModel {
 
     /**
      * Accessor method for getting the number of songs in the current playlist
-     * 
+     *
      * @return {number} The number of songs in the current playlist
      */
     getPlaylistSize() {
@@ -212,17 +212,17 @@ export default class PlaylisterModel {
 
     /**
      * Accessor method for getting the song at index
-     * 
+     *
      * @param {number} index The index of the song to retrieve
      * @return {PlaylistSongPrototype} The song at index
-     */    
+     */
     getSong(index) {
         return this.currentList.songs[index];
     }
 
     /**
      * Accessor method for checking to see if a playlist is currently being viewed/edited
-     * 
+     *
      * @returns {boolean} true if a playlist is loaded and being viewed/edited, false otherwise.
      */
     hasCurrentList() {
@@ -232,7 +232,7 @@ export default class PlaylisterModel {
     /**
      * Tests to see if a loaded playlist exists with a specific name and returns true if
      * such a playlist exists, false otherwise.
-     * 
+     *
      * @param {string} testName The name of the playlist to search for.
      * @returns {boolean} true if a playlist is found with the name, false otherwise.
      */
@@ -248,17 +248,17 @@ export default class PlaylisterModel {
     /**
      * Acceessor method for getting whether or not a list name change is in progress, which
      * would mean the playlist card would contain a text field for typing in the new name.
-     * 
+     *
      * @returns {boolean} true if a list name is currently being edited, false otherwise.
      */
-    isListNameBeingChanged() { 
+    isListNameBeingChanged() {
         return this.listNameBeingChanged;
     }
 
     /**
      * This method would be called when the user selects a list for viewing/editing, it
      * would load all the list data into the workspace, like the song cards.
-     * 
+     *
      * @param {string} id The id of the list to load into the workspace UI.
      */
     loadList(id) {
@@ -284,14 +284,14 @@ export default class PlaylisterModel {
         if (this.hasCurrentList())
             listName = this.currentList.name;
         this.view.updateStatusBar(this.hasCurrentList(), listName);
-        this.view.updateToolbarButtons(this.hasCurrentList(), 
+        this.view.updateToolbarButtons(this.hasCurrentList(),
                             this.confirmDialogOpen, this.tps.hasTransactionToDo(), this.tps.hasTransactionToUndo());
     }
 
     /**
      * Checks the browser's local storage to see if it contains user playlists
      * and if it does, loads them.
-     * 
+     *
      * @returns {boolean} true if lists were found and loaded from local storage, false otherwise.
      */
     loadLists() {
@@ -315,17 +315,17 @@ export default class PlaylisterModel {
                 }
                 this.addNewList(listData.name, songs);
             }
-            this.sortLists();   
+            this.sortLists();
             this.view.refreshPlaylistCards(this.playlists);
             return true;
-        }        
+        }
     }
 
     /**
      * Mutator method that moves the song from one index to another in the playlist. Note
      * that once the song is moved in the model's data the view updates the UI and the
      * updated playlist is saved to local storage.
-     * 
+     *
      * @param {number} fromIndex The index from which to move the song
      * @param {number} toIndex The index to which to move the song
      */
@@ -346,14 +346,14 @@ export default class PlaylisterModel {
     redo() {
         if (this.tps.hasTransactionToDo()) {
             this.tps.doTransaction();
-            this.view.updateToolbarButtons(this.hasCurrentList(), 
+            this.view.updateToolbarButtons(this.hasCurrentList(),
                             this.confirmDialogOpen, this.tps.hasTransactionToDo(), this.tps.hasTransactionToUndo());
         }
     }
 
     /**
      * Removes the song at index from the currently loaded playlist
-     * 
+     *
      * @param {number} index The location in the playlist of the song to add nothing 0 is the first song.
      */
     removeSong(index) {
@@ -364,10 +364,10 @@ export default class PlaylisterModel {
 
     /**
      * Renames the currently selected list using the provided name
-     * 
+     *
      * @param {string} initName New name for the current list.
      */
-    renameCurrentList(initName) { 
+    renameCurrentList(initName) {
         if (this.hasCurrentList()) {
             if (initName === "") {
                 this.currentList.setName("Untitled");
@@ -375,15 +375,27 @@ export default class PlaylisterModel {
                 this.currentList.setName(initName);
             }
 
-            this.sortLists(); 
+            this.sortLists();
             this.saveLists();
             this.view.highlightList(this.currentList.id);
-            this.view.hidePlaylistTextInput(this.currentList.id);        
+            this.view.hidePlaylistTextInput(this.currentList.id);
             this.view.updateStatusBar(this, this.currentList.name);
-            this.view.updateToolbarButtons(this.hasCurrentList(), 
+            this.view.updateToolbarButtons(this.hasCurrentList(),
                             this.confirmDialogOpen, this.tps.hasTransactionToDo(), this.tps.hasTransactionToUndo());
 
         }
+    }
+
+
+    /**
+     * Add New Playlist with the Name Being "Untitled" 
+     */
+
+    addPlayList(){
+        let playlistBuilder = new PlaylistBuilder;
+        let newList = playlistBuilder.buildNewPlaylist("Untitled");
+        return this.addList(newList)
+
     }
 
     /**
@@ -397,7 +409,7 @@ export default class PlaylisterModel {
     /**
      * Selects the list argument, setting it as the current list and updating the view
      * such that its songs can be viewed and edited.
-     * 
+     *
      * @param {Playlist} listToSelect The list to select.
      */
     selectList(listToSelect) {
@@ -411,7 +423,7 @@ export default class PlaylisterModel {
     /**
      * Mutator method for setting the list to delete, which is used such that
      * the dialog event handler verification can coordinate a proper response.
-     * 
+     *
      * @param {number} initId The id of the list to delete.
      */
     setDeleteListId(initId) {
@@ -421,7 +433,7 @@ export default class PlaylisterModel {
     /**
      * Mutator method for setting the index of the song being edited, which is used
      * such that the dialog event handler can coordinate a proper response.
-     * 
+     *
      * @param {number} initIndex The index of thte song being edited in the dialog.
      */
     setEditSongIndex(initIndex) {
@@ -432,13 +444,13 @@ export default class PlaylisterModel {
      * Mutator method for setting the boolean variable that keeps track of when a list
      * name is being changed so as to prevent other events from being processed at
      * that time.
-     * 
+     *
      * @param {boolean} flag Sets whether a list name is being edited (true) or not (false).
      */
     setListNameBeingChanged(flag, id) {
         this.listNameBeingChanged = flag;
         this.view.showPlaylistTextInput(id);
-        this.view.updateToolbarButtons(this.hasCurrentList(), 
+        this.view.updateToolbarButtons(this.hasCurrentList(),
                             this.confirmDialogOpen, this.tps.hasTransactionToDo(), this.tps.hasTransactionToUndo());
     }
 
@@ -446,7 +458,7 @@ export default class PlaylisterModel {
      * Mutator method for setting the view. Note, we are using an MVC approach so when
      * this model (i.e. the data) is updated it must notify the view such that it can
      * update the rendering or affected UI components.
-     * 
+     *
      * @param {PlaylisterView} initView The V (i.e. View) in this application's MVC
      */
     setView(initView) {
@@ -455,7 +467,7 @@ export default class PlaylisterModel {
 
     /**
      * Sorts the lists alphabetically (A-Z) by name. Note that this is done each time
-     * a new list is added or deleted or renamed as the lists are always kept in 
+     * a new list is added or deleted or renamed as the lists are always kept in
      * sorted order.
      */
     sortLists() {
@@ -479,7 +491,7 @@ export default class PlaylisterModel {
      */
     toggleConfirmDialogOpen() {
         this.confirmDialogOpen = !this.confirmDialogOpen;
-        this.view.updateToolbarButtons(this.hasCurrentList(), 
+        this.view.updateToolbarButtons(this.hasCurrentList(),
                             this.confirmDialogOpen, this.tps.hasTransactionToDo(), this.tps.hasTransactionToUndo());
         if (!this.confirmDialogOpen)
             this.view.closeEditSongModal();
@@ -493,7 +505,7 @@ export default class PlaylisterModel {
     undo() {
         if (this.tps.hasTransactionToUndo()) {
             this.tps.undoTransaction();
-            this.view.updateToolbarButtons(this.hasCurrentList(), 
+            this.view.updateToolbarButtons(this.hasCurrentList(),
                             this.confirmDialogOpen, this.tps.hasTransactionToDo(), this.tps.hasTransactionToUndo());
         }
     }
@@ -508,7 +520,7 @@ export default class PlaylisterModel {
             this.view.updateStatusBar(false);
             this.view.clearWorkspace();
             this.tps.clearAllTransactions();
-            this.view.updateToolbarButtons(this.hasCurrentList(), 
+            this.view.updateToolbarButtons(this.hasCurrentList(),
                             this.confirmDialogOpen, this.tps.hasTransactionToDo(), this.tps.hasTransactionToUndo());
         }
     }

@@ -4,13 +4,15 @@ import PlaylistSongPrototype from "./PlaylistSongPrototype.js";
  * The PlaylistBuilder class employs the Buildler creational design pattern to manage
  * all instantiation of Playlists. It is the only place Playlist objects are to be
  * created. Note, this class is a singleton.
- * 
+ *
+ * Brian C - Modification - Create the Playlist Add Button 
+ *
  * @author McKilla Gorilla
  */
 export default class PlaylistBuilder {
     /**
      * Constructor will make sure this type is only instantiated once, for the singleton object.
-     * 
+     *
      * @returns {PlaylistBuilder} The singelton object, which may need to be instantiated but
      * will only be instantiated once.
      */
@@ -19,14 +21,14 @@ export default class PlaylistBuilder {
             return PlaylistBuilder.singleton;
         }
         PlaylistBuilder.singleton = this;
-        
+
         // WE'LL USE THIS TO ASSIGN ID NUMBERS TO EVERY LIST
         this.nextListId = 0;
     }
 
     /**
      * Accessor for getting the singleton object.
-     * 
+     *
      * @returns {PlaylistBuilder} The singleton object of this class type.
      */
     static getSingleton() {
@@ -38,7 +40,7 @@ export default class PlaylistBuilder {
 
     /**
      * Builder function for creating a brand new Playlist with the provided name.
-     * 
+     *
      * @param {string} initName Name for the brand new Playlist.
      * @returns {Playlist} The newly created Playlist.
      */
@@ -49,7 +51,7 @@ export default class PlaylistBuilder {
 
     /**
      * Builder function for creating a brand new Playlist with the provided name and songs.
-     * 
+     *
      * @param {string} initName Name for the brand new Playlist.
      * @param {PlaylistSongPrototype[]} initSongs Songs for the brand new Playlist.
      * @returns {Playlist} The newly created Playlist.
@@ -61,11 +63,11 @@ export default class PlaylistBuilder {
 
     /**
      * Builder function for creating a new Playlist with the provided name and songs.
-     * 
+     *
      * @param {number} initId Unique identifier of the Playlist to create.
      * @param {string} initName Name of the Playlist to create.
      * @param {string} initSongs Songs for the Playlist to create.
-     * @returns 
+     * @returns
      */
     buildPlaylistWithId(initId, initName, initSongs) {
         let newPlaylist = new Playlist(initId);

@@ -1,6 +1,6 @@
 /**
  * This class provides responses for all user interface interactions.
- * 
+ *
  * @author McKilla Gorilla
  */
 export default class PlaylisterController {
@@ -27,6 +27,9 @@ export default class PlaylisterController {
 
         // SETUP THE MODAL HANDLERS
         this.registerModalHandlers();
+
+        // Might Need to Set up a Handler for Add New Playlist Button
+        this.registerNewPlaylistHandler();
     }
 
     /**
@@ -93,6 +96,13 @@ export default class PlaylisterController {
             // CLOSE THE MODAL
             let deleteListModal = document.getElementById("delete-list-modal");
             deleteListModal.classList.remove("is-visible");
+        }
+    }
+
+    // Listening for if a user clicks on the "Add" button for playlist.
+    registerNewPlaylistHandler() {
+        document.getElementById("add-playlist-button").onclick = (event) => {
+            this.model.addPlayList();
         }
     }
 
@@ -169,9 +179,9 @@ export default class PlaylisterController {
     }
 
     /**
-     * This function specifies event handling for interactions with the playlist 
-     * song cards. Note that we say these are for dynamic controls because the cards 
-     * in the playlist are not known, it can be any number of songs. It's as many 
+     * This function specifies event handling for interactions with the playlist
+     * song cards. Note that we say these are for dynamic controls because the cards
+     * in the playlist are not known, it can be any number of songs. It's as many
      * cards as there are songs in the playlist, and users can add and remove songs.
     */
     registerSongCardHandlers() {
@@ -211,7 +221,7 @@ export default class PlaylisterController {
                 this.ignoreParentClick(event);
 
                 // RECORD WHICH SONG SO THE MODAL KNOWS AND UPDATE THE MODAL TEXT
-                let songIndex = Number.parseInt(event.target.id.split("-")[2]);               
+                let songIndex = Number.parseInt(event.target.id.split("-")[2]);
 
                 // PROCESS THE REMOVE SONG EVENT
                 this.model.addTransactionToRemoveSong(songIndex);
@@ -258,8 +268,8 @@ export default class PlaylisterController {
     }
 
     /**
-     * We are using an MVC-type approach, so this controller class will respond by 
-     * updating the application data, which is managed by the model class. So, this 
+     * We are using an MVC-type approach, so this controller class will respond by
+     * updating the application data, which is managed by the model class. So, this
      * function registers the model object with this controller.
      */
     setModel(initModel) {
