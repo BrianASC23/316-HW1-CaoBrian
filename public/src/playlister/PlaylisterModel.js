@@ -72,6 +72,21 @@ export default class PlaylisterModel {
     }
 
     /**
+     * Duplicating playlists
+     *
+     * @param {number} id id of the playlist
+     *
+     * Used for deep copying.
+     */
+
+    duplicateList(id){
+        let playlistAtIndex = this.playlists[this.getListIndex(id)];
+        let newPlaylist = PlaylistBuilder.getSingleton();
+        let duplicate = newPlaylist.buildPlaylist(playlistAtIndex.name + "(Copy)", playlistAtIndex.songs);
+        return this.addList(duplicate);
+    }
+
+    /**
      * Adds an undoable transaction for creating a song to the transaction stack.
      */
     addTransactionToCreateSong() {
@@ -388,6 +403,7 @@ export default class PlaylisterModel {
 
 
     /**
+     * BRIAN
      * Add New Playlist with the Name Being "Untitled"
      */
 

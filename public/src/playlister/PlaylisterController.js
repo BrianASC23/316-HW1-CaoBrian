@@ -116,14 +116,7 @@ export default class PlaylisterController {
      * to register event handling.
     */
     registerPlaylistCardHandlers(id) {
-        // Handles Duplicating a List
-        document.getElementById("duplicate-list-button-" + id).onmousedown = (event) => {
-            //Don't propogate this interaction to lower-level controls
-            this.ignoreParentClick(event)
 
-            // Duplicate the list
-            this.model.duplicateList(id);
-        }
 
         // HANDLES SELECTING A PLAYLIST
         document.getElementById("playlist-card-" + id).onmousedown = (event) => {
@@ -157,6 +150,16 @@ export default class PlaylisterController {
             deleteListModal.classList.add("is-visible");
             this.model.toggleConfirmDialogOpen();
         }
+
+                // Handles Duplicating a List
+        document.getElementById("duplicate-list-button-" + id).onmousedown = (event) => {
+            //Don't propogate this interaction to lower-level controls
+            this.ignoreParentClick(event);
+
+            // Duplicate the list
+            this.model.duplicateList(id);
+        }
+
         // FOR RENAMING THE LIST NAME
         document.getElementById("playlist-card-" + id).ondblclick = (event) => {
             let text = document.getElementById("playlist-card-text-" + id)

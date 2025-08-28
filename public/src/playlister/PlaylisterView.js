@@ -7,7 +7,7 @@ import PlaylisterController from "./PlaylisterController.js";
  * of this application is implemented using an MVC type-strategy (Observer design pattern)
  * where one class manages the application state/data (Model), one class manages the
  * application UI components (View), and one class manages the event handling (Controller).
- * 
+ *
  * @author McKilla Gorilla
  */
 export default class PlaylisterView {
@@ -15,15 +15,15 @@ export default class PlaylisterView {
      * Object initialization is done via the init method rather than the constructor. Note
      * that for updating the browser view this class will make use of the document object,
      * is a global variable that represents the Document Object Model (DOM), a K-ary
-     * tree initialized and provided by the browser that stores all the HTML components 
-     * for the Web page currently being viewed. Updating the DOM updates what the user sees 
+     * tree initialized and provided by the browser that stores all the HTML components
+     * for the Web page currently being viewed. Updating the DOM updates what the user sees
      * in the browser.
      */
     constructor() {}
 
     /**
      * Adds a playlist card to to the left sidebar in the UI.
-     * 
+     *
      * @param {Playlist} newList The list to be added.
      */
     appendListToView(newList) {
@@ -37,11 +37,12 @@ export default class PlaylisterView {
 
         playlistCard.querySelector("span").id = "playlist-card-text-" + newList.id;
         playlistCard.querySelector("span").textContent = newList.name;
-        
+
         let textInput = playlistCard.querySelector("#playlist-card-text-input-");
         textInput.id += newList.id;
 
         playlistCard.querySelector('input[id^="delete-list-button-"]').id += newList.id;
+        playlistCard.querySelector('input[id^="duplicate-list-button-"]').id += newList.id;
 
         playlistCard.hidden = false;
 
@@ -58,7 +59,7 @@ export default class PlaylisterView {
      * done whenever a list is closed.
     */
     clearWorkspace() {
-        // REMOVE THE ITEMS        
+        // REMOVE THE ITEMS
         let itemsDiv = document.getElementById("song-cards");
         itemsDiv.innerHTML = "";
     }
@@ -67,7 +68,7 @@ export default class PlaylisterView {
      * Closes the edit song modal, which would be because either the
      * confirm or cancel button was pressed.
      */
-    closeEditSongModal() {        
+    closeEditSongModal() {
         // CLOSE THE MODAL
         let editSongModal = document.getElementById("edit-song-modal");
         editSongModal.classList.remove("is-visible");
@@ -77,7 +78,7 @@ export default class PlaylisterView {
      * This function disables the button that has the id parameter
      * as it's id property. This should be done as part of a foolproof
      * design strategy.
-     * 
+     *
      * @param {number} id The id of the button control to disable.
      */
     disableButton(id) {
@@ -90,7 +91,7 @@ export default class PlaylisterView {
      * This function enables the button that has the id parameter
      * as it's id property. This should be done as part of a foolproof
      * design strategy.
-     * 
+     *
      * @param {number} id The id of the button control to enable.
      */
    enableButton(id) {
@@ -101,7 +102,7 @@ export default class PlaylisterView {
 
     /**
      * Hides the textfield control on the playlist card corresponding to id.
-     * 
+     *
      * @param {number} id The id of the playlist whose textfield we wish to hide.
      */
     hidePlaylistTextInput(id) {
@@ -111,7 +112,7 @@ export default class PlaylisterView {
 
     /**
      * Changes the background of a list card to make it look selected.
-     * 
+     *
      * @param {number} listId The id of the list card to highlight.
      */
     highlightList(listId) {
@@ -135,7 +136,7 @@ export default class PlaylisterView {
      * This function is called each time the number of lists or the names
      * of lists change, like when a list is added, deleted, or renamed. It
      * simply rebuilds the cards in playlist-cards.
-     * 
+     *
      * @param {Playlist[]} lists All the lists to be shown.
     */
     refreshPlaylistCards(lists) {
@@ -153,7 +154,7 @@ export default class PlaylisterView {
     /**
      * Called each time a song is added, removed, moved, or updated,
      * this function rebuilds all the song cards for the selected playlist.
-     * 
+     *
      * @param {Playlist} playlist The playlist whose songs are to be reshown.
      */
     refreshSongCards(playlist) {
@@ -214,7 +215,7 @@ export default class PlaylisterView {
      * view components are created they will have to wire proper coded responses
      * in the controller. This method sets the controller to use for our MVC
      * implementation.
-     * 
+     *
      * @param {PlaylisterController} initController The controller object that
      * will manage event handling for the application. The view needs this to
      * connect its components to the proper event handling.
@@ -225,7 +226,7 @@ export default class PlaylisterView {
 
     /**
      * Shows the textfield control on the playlist card corresponding to id.
-     * 
+     *
      * @param {number} id The id of the playlist whose textfield we wish to show.
      */
     showPlaylistTextInput(id) {
@@ -235,7 +236,7 @@ export default class PlaylisterView {
 
     /**
      * Changes the background of a list card so it doesn't look selected.
-     * 
+     *
      * @param {number} listId The id of the list card no remove highlighting.
      */
     unhighlightList(listId) {
