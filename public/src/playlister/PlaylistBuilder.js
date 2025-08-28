@@ -5,7 +5,10 @@ import PlaylistSongPrototype from "./PlaylistSongPrototype.js";
  * all instantiation of Playlists. It is the only place Playlist objects are to be
  * created. Note, this class is a singleton.
  *
- * Brian C - Modification - Create the Playlist Add Button 
+ * Brian C - Modifications:
+ * - Create the Playlist Add Button,
+ * - Added a year parameter to PlaylistBuilderwithID
+ * 
  *
  * @author McKilla Gorilla
  */
@@ -74,7 +77,7 @@ export default class PlaylistBuilder {
         newPlaylist.name = initName;
         newPlaylist.songs = [];
         initSongs.forEach(song => {
-            let newSong = new PlaylistSongPrototype(song.title, song.artist, song.youTubeId);
+            let newSong = new PlaylistSongPrototype(song.title, song.artist, song.youTubeId, song.year);
             newPlaylist.songs.push(newSong);
         });
         return newPlaylist;

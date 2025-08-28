@@ -5,30 +5,35 @@
  * using the prototype design pattern, which here means an object of this class knows
  * how to clone itself (i.e. make and return a deep copy), which provides a convenience
  * to programmers for when they wish to duplicate/copy a song during editing.
- * 
+ *
+ * Brian Modifications:
+ * - Added the year parameter to the constructor
+ *
  * @author McKilla Gorilla
  */
 export default class PlaylistSongPrototype {
     /**
      * Constructor for initializing all instance variables for a song object.
-     * 
+     *
      * @param {string} initTitle The song title.
      * @param {string} initArtist The song artist.
+     * @param {string} initYear The song year.
      * @param {string} initYouTubeId The YouTube id for the song as it would appear in a link.
      */
-    constructor(initTitle, initArtist, initYouTubeId) {
+    constructor(initTitle, initArtist, initYouTubeId, initYear) {
         this.title = initTitle;
         this.artist = initArtist;
+        this.year = initYear;
         this.youTubeId = initYouTubeId;
     }
 
     /**
      * Clones and returns an instance of this object.
-     * 
+     *
      * @returns A deep copy of this object.
      */
     clone() {
-        let song = new PlaylistSongPrototype(this.title, this.artist, this.youTubeId);
+        let song = new PlaylistSongPrototype(this.title, this.artist, this.youTubeId, this.year);
         return song;
-    }                    
+    }
 }

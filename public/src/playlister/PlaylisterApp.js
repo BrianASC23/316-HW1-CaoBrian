@@ -6,7 +6,7 @@ import PlaylisterController from './PlaylisterController.js';
  * This is the entry point into our application, it launches the app by first
  * checking to see if any playlists were saved to the browsers's local storage,
  * loads them if found.
- * 
+ *
  * @author McKilla Gorilla
  */
 export class PlaylisterApp {
@@ -31,8 +31,8 @@ export class PlaylisterApp {
 
     /**
      * This function loads the playlists found inside the JSON file into the app.
-     * If the playlists have never been stored in local storage this function 
-     * can be used to store initial playlist data for the purpose of testing 
+     * If the playlists have never been stored in local storage this function
+     * can be used to store initial playlist data for the purpose of testing
      * using the provided lists.
     */
     loadListsFromJSON(jsonFilePath) {
@@ -47,7 +47,7 @@ export class PlaylisterApp {
         xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 let lists = JSON.parse(this.responseText).playlists;
-
+                console.log(lists);
                 // GO THROUGH THE DATA AND LOAD IT INTO OUR APP'S DATA MODEL
                 for (let i = 0; i < lists.length; i++) {
                     let listData = lists[i];
@@ -67,11 +67,11 @@ export class PlaylisterApp {
      * Sets up the application for use once the initial HTML file has fully loaded
      * meaning it will load the initial lists such that all needed playlist cards
      * are available.
-     * 
+     *
      * @param {*} testFile The JSON file containing initial playlists of data.
      */
     start() {
-        // DISABLE ALL RELEVANT 
+        // DISABLE ALL RELEVANT
         this.view.init();
 
         // FIRST TRY AND GET THE LISTS FROM LOCAL STORAGE

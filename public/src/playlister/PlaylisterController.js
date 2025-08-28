@@ -151,7 +151,7 @@ export default class PlaylisterController {
             this.model.toggleConfirmDialogOpen();
         }
 
-                // Handles Duplicating a List
+        // Handles Duplicating a List
         document.getElementById("duplicate-list-button-" + id).onmousedown = (event) => {
             //Don't propogate this interaction to lower-level controls
             this.ignoreParentClick(event);
@@ -213,9 +213,11 @@ export default class PlaylisterController {
                 this.model.setEditSongIndex(songIndex);
                 let song = this.model.getSong(songIndex);
 
+
                 // LOAD THE SONG DATA INTO THE MODAL
                 document.getElementById("edit-song-modal-title-textfield").value = song.title;
                 document.getElementById("edit-song-modal-artist-textfield").value = song.artist;
+                document.getElementById("edit-song-modal-year-textfield").value = song.year;
                 document.getElementById("edit-song-modal-youTubeId-textfield").value = song.youTubeId;
 
                 // OPEN UP THE MODAL

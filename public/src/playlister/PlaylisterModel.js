@@ -83,7 +83,8 @@ export default class PlaylisterModel {
         let playlistAtIndex = this.playlists[this.getListIndex(id)];
         let newPlaylist = PlaylistBuilder.getSingleton();
         let duplicate = newPlaylist.buildPlaylist(playlistAtIndex.name + "(Copy)", playlistAtIndex.songs);
-        return this.addList(duplicate);
+        this.addList(duplicate);
+        this.loadList(duplicate.id);
     }
 
     /**
@@ -307,6 +308,8 @@ export default class PlaylisterModel {
      * Checks the browser's local storage to see if it contains user playlists
      * and if it does, loads them.
      *
+     * Brian - Added the year field and passed it to PlaylistSongPrototype Constructor
+     *
      * @returns {boolean} true if lists were found and loaded from local storage, false otherwise.
      */
     loadLists() {
@@ -325,8 +328,9 @@ export default class PlaylisterModel {
                     let songData = listData.songs[j];
                     let title = songData.title;
                     let artist = songData.artist;
+                    let year = songData.year;
                     let youTubeId = songData.youTubeId;
-                    songs[j] = new PlaylistSongPrototype(title, artist, youTubeId);
+                    songs[j] = new PlaylistSongPrototype(title, artist, youTubeId, year);
                 }
                 this.addNewList(listData.name, songs);
             }
