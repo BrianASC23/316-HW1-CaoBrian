@@ -8,6 +8,11 @@ import PlaylisterController from "./PlaylisterController.js";
  * where one class manages the application state/data (Model), one class manages the
  * application UI components (View), and one class manages the event handling (Controller).
  *
+ *
+ * Brian - Modifications:
+ * - AppendSongToView: Dynamically create song cards
+ *
+ *
  * @author McKilla Gorilla
  */
 export default class PlaylisterView {
@@ -53,6 +58,53 @@ export default class PlaylisterView {
         // SETUP THE HANDLER FOR WHEN SOMEONE MOUSE CLICKS ON OUR LIST
         this.controller.registerPlaylistCardHandlers(newList.id);
     }
+
+    /**
+     * Brian
+     * Adds a song card to a playlist's song list in the right UI
+     *
+     *  @param {Playlist} playlist The list from which the song belongs
+     */
+    appendSongToView(playlist){
+
+        for(let i = 0; i < playlist.songs.length; i++){
+            let song = playlist.getSongAt(i);
+
+            // clone
+            let songTemplate = document.getElementById("song-card-prototype").cloneNode(true);
+
+            //set ID
+            let songID = "song-card-" + (i+1);
+            songTemplate.id = songID;
+            console.log(songTemplate.id);
+
+            //Add class
+            songTemplate.classList.add("song-card", "unselected-song-card");
+
+            //Add the Song Number
+            songTemplate.prepend(document.createTextNode(`${i + 1}. `));
+            //for the Youtube Link
+
+            songTemplate.querySelector("a").href += song.youTubeId;
+            songTemplate.querySelector("a").textContent = song.title;
+
+            songTemplate.querySelector('span[class^="song-card-by"]').textContent = "by";
+
+            //for the artist
+            songTemplate.querySelector('span[class^="song-card-artist"]').textContent = song.artist;
+
+            //for the delete Button
+            songTemplate.querySelector('input[id^="remove-song-"]').id += i;
+            songTemplate.hidden = false;
+
+            let songsList = document.getElementById("song-cards");
+            songsList.append(songTemplate);
+
+        }
+        this.controller.registerSongCardHandlers();
+
+    }
+
 
     /**
      * This removes all the songs from UI workspace, which should be
@@ -162,51 +214,8 @@ export default class PlaylisterView {
         let itemsDiv = document.getElementById("song-cards");
         itemsDiv.innerHTML = "";
 
-        // FOR EACH SONG
-        for (let i = 0; i < playlist.songs.length; i++) {
-            // MAKE AN ITEM (i.e. CARD)
-            let song = playlist.getSongAt(i);
-            let itemDiv = document.createElement("div");
-            itemDiv.classList.add("song-card");
-            itemDiv.classList.add("unselected-song-card");
-            itemDiv.id = "song-card-" + (i + 1);
-
-            // HAVE THE TEXT LINK TO THE YOUTUBE VIDEO
-            let youTubeLink = document.createElement("a");
-            youTubeLink.classList.add("song-card-title");
-            youTubeLink.href = "https://www.youtube.com/watch?v=" + song.youTubeId;
-            youTubeLink.target = 1;
-            youTubeLink.innerHTML = song.title;
-
-            let bySpan = document.createElement("span");
-            bySpan.class = "song-card-by";
-            bySpan.innerHTML = " by ";
-
-            let artistSpan = document.createElement("span");
-            artistSpan.class = "song-card-artist";
-            artistSpan.innerHTML = song.artist;
-
-            // PUT THE CONTENT INTO THE CARD
-            let songNumber = document.createTextNode("" + (i + 1) + ". ");
-            itemDiv.appendChild(songNumber);
-            itemDiv.appendChild(youTubeLink);
-            itemDiv.appendChild(bySpan);
-            itemDiv.appendChild(artistSpan);
-
-            // MAKE THE DELETE LIST BUTTON
-            let deleteButton = document.createElement("input");
-            deleteButton.setAttribute("type", "button");
-            deleteButton.setAttribute("id", "remove-song-" + i);
-            deleteButton.setAttribute("class", "song-card-button");
-            deleteButton.setAttribute("value", "\u2715");
-            itemDiv.appendChild(deleteButton);
-
-            // AND PUT THE CARD INTO THE UI
-            itemsDiv.appendChild(itemDiv);
-        }
-        // NOW THAT THE CONTROLS EXIST WE CAN REGISTER EVENT
-        // HANDLERS FOR THEM
-        this.controller.registerSongCardHandlers();
+        // Brian - Function that dynamically uses the Song Prototype to create song cards.
+        this.appendSongToView(playlist);
     }
 
     /**

@@ -10,6 +10,12 @@
     with data saved to the browser's local storage. Many more features
     will be added in future versions.
 
+    Brian - Modifications:
+    - Song Prototype
+    - Playlist Add Button input
+    - Duplicate Button
+    - Song: year parameter
+
     @author McKilla Gorilla
     @author ?
 -->
@@ -72,6 +78,15 @@
                 value="🗑" />
         </div>
 
+        <!-- PROTOTYPE FOR MAKING SONG CARDS-->
+        <div hidden id="song-card-prototype"
+            class="song-card unselected-song-card">
+
+            <a href="https://www.youtube.com/watch?v=" target="1" class="song-card-title"></a>
+            <span class="song-card-by"></span>
+            <span class="song-card-artist"></span>
+            <input type="button" id="remove-song-" class="song-card-button" value="&#x2715;">
+        </div>
 
         <!-- MODAL (i.e. DIALOG) FOR EDITING SONG DATA -->
         <div id="edit-song-modal" class="modal" data-animation="slideInOutLeft">
