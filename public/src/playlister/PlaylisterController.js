@@ -58,6 +58,8 @@ export default class PlaylisterController {
     /**
      * Specifies  event handlers for when confirm and cancel buttons
      * are pressed in the three modals.
+     *
+     * Brian - Modifications:
      */
     registerModalHandlers() {
         // RESPOND TO THE USER CLOSING THE EDIT SONG MODAL VIA THE CANCEL BUTTON
@@ -68,6 +70,31 @@ export default class PlaylisterController {
             // CLOSE THE MODAL
             let editSongModal = document.getElementById("edit-song-modal");
             editSongModal.classList.remove("is-visible");
+        }
+
+
+        // Respond to User confirming the edit changes via the confirm button
+        document.getElementById("edit-song-confirm-button").onclick = (event) => {
+            // Allow other interactions
+            this.model.toggleConfirmDialogOpen();
+
+
+            //Get the new Data
+            let title = document.getElementById("edit-song-modal-title-textfield").value;
+            let artist = document.getElementById("edit-song-modal-artist-textfield").value;
+            let youTubeId = document.getElementById("edit-song-modal-youTubeId-textfield").value;
+            let year = document.getElementById("edit-song-modal-year-textfield").value;
+
+            //Update the data
+            //Add to the Transaction
+            let editSongIndex = this.model.getEditSongIndex();
+            this.model.addTransactionToEditSong(editSongIndex, title, artist, youTubeId, year);
+
+
+            //Close the modal
+            let editSongModal = document.getElementById("edit-song-modal");
+            editSongModal.classList.remove("is-visible");
+
         }
 
         // RESPOND TO THE USER CONFIRMING TO DELETE A PLAYLIST
@@ -213,7 +240,6 @@ export default class PlaylisterController {
                 this.model.setEditSongIndex(songIndex);
                 let song = this.model.getSong(songIndex);
 
-
                 // LOAD THE SONG DATA INTO THE MODAL
                 document.getElementById("edit-song-modal-title-textfield").value = song.title;
                 document.getElementById("edit-song-modal-artist-textfield").value = song.artist;
@@ -222,10 +248,16 @@ export default class PlaylisterController {
 
                 // OPEN UP THE MODAL
                 let editSongModal = document.getElementById("edit-song-modal");
+
+
+
                 editSongModal.classList.add("is-visible");
 
                 // IGNORE ALL NON-MODAL EVENTS
                 this.model.toggleConfirmDialogOpen();
+
+
+
             }
 
             // USER WANTS TO REMOVE A SONG FROM THE PLAYLIST

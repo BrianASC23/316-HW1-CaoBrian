@@ -4,6 +4,7 @@ import PlaylistSongPrototype from './PlaylistSongPrototype.js';
 import CreateSong_Transaction from "./transactions/CreateSong_Transaction.js";
 import MoveSong_Transaction from "./transactions/MoveSong_Transaction.js";
 import RemoveSong_Transaction from "./transactions/RemoveSong_Transaction.js";
+import EditSong_Transaction from './transactions/EditSong_Transaction.js';
 import PlaylistBuilder from './PlaylistBuilder.js';
 
 /**
@@ -124,6 +125,30 @@ export default class PlaylisterModel {
         this.tps.processTransaction(transaction);
         this.view.updateToolbarButtons(this.hasCurrentList(),
                             this.confirmDialogOpen, this.tps.hasTransactionToDo(), this.tps.hasTransactionToUndo());
+    }
+
+
+    /**
+     * Adds an undoable and redoable transaction for editing a song to the transaction stack.
+     *
+     *
+     * my current logic: take the new value of the document input make a new song out of it. In the transaction. for both do and undo, we include both create and remove song.
+     * @param {number} index The index of the song transaction to edit
+     */
+    addTransactionToEditSong(index, title, artist, youTubeId, year){
+        let song = this.getSong(index);
+
+
+        // let newSong = new PlaylistSongPrototype(title, artist, youTubeId, year);
+
+        let transaction = new EditSong_Transaction(this, index, song, title, artist, youTubeId, year);
+        this.tps.processTransaction(transaction);
+        this.view.updateToolbarButtons(this.hasCurrentList(),
+                            this.confirmDialogOpen, this.tps.hasTransactionToDo(), this.tps.hasTransactionToUndo()
+
+        );
+        console.log(`redo?: ${this.tps.hasTransactionToDo()}`);
+
     }
 
     /**
@@ -363,6 +388,7 @@ export default class PlaylisterModel {
      * stack is, will modify the loaded playlist in some way and force an update to the UI.
      */
     redo() {
+        console.log("Redo has Runned");
         if (this.tps.hasTransactionToDo()) {
             this.tps.doTransaction();
             this.view.updateToolbarButtons(this.hasCurrentList(),
@@ -379,6 +405,60 @@ export default class PlaylisterModel {
         this.currentList.songs.splice(index, 1);
         this.view.refreshSongCards(this.currentList);
         this.saveLists();
+    }
+
+
+    /**
+     * Saves the edits of the song at index
+     * @param {number} index The index of the song
+     */
+    saveSong(index, title, artist, youtube, year){
+        let song = this.getSong(index);
+        // this.setEditTitle(song);
+        // this.setEditArtist(song);
+        // this.setEditYoutubeId(song);
+        // this.setEditYear(song);
+
+        song.title = title;
+        song.artist = artist;
+        song.youTubeId = youtube;
+        song.year = year;
+
+        this.view.refreshSongCards(this.currentList);
+        this.saveLists();
+    }
+
+
+    setEditTitle(song){
+        this.editTitle = song.title;
+    }
+
+    getEditTitle(){
+        return this.editTitle;
+    }
+
+    setEditArtist(song){
+        this.editArtist = song.artist;
+    }
+
+    getEditArtist(){
+        return this.editArtist;
+    }
+
+    setEditYoutubeId(song){
+        this.editYoutubeId = song.youTubeId;
+    }
+
+    getEditYoutubeId(){
+        return this.editYoutubeId;
+    }
+
+    setEditYear(song){
+        this.editYear = song.year;
+    }
+
+    getEditYear(){
+        return this.editYear;
     }
 
     /**

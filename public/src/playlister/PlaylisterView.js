@@ -76,8 +76,6 @@ export default class PlaylisterView {
             //set ID
             let songID = "song-card-" + (i+1);
             songTemplate.id = songID;
-            console.log(songTemplate.id);
-
             //Add class
             songTemplate.classList.add("song-card", "unselected-song-card");
 
