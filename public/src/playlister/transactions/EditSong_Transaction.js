@@ -39,8 +39,9 @@ export default class EditSong_Transaction extends jsTPS_Transaction{
     }
 
     undoTransaction(){
-        this.model.saveSong(this.index, this.oldTitle, this.oldArtist, this.oldYoutube, this.oldYear);
         this.model.redo();
+
+        this.model.saveSong(this.index, this.oldTitle, this.oldArtist, this.oldYoutube, this.oldYear);
     }
 
 }
