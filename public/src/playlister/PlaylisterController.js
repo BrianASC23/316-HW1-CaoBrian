@@ -73,28 +73,44 @@ export default class PlaylisterController {
         }
 
 
-        // Respond to User confirming the edit changes via the confirm button
-        document.getElementById("edit-song-confirm-button").onclick = (event) => {
-            // Allow other interactions
-            this.model.toggleConfirmDialogOpen();
+        /** Respond to User confirming the edit changes via the confirm button
+         * Added an EventListener Globally so it listens for "Enter" key being pressed.
+         *  If yes, fires the click. Also made sure the "Enter" should do something when modal is on.
+         *
+         */
+
+        const confirmBtn = document.getElementById('edit-song-confirm-button');
+        document.addEventListener("keypress", (event) => {
+            let modal = document.getElementById("edit-song-modal");
+            let isVisible = modal.classList.contains("is-visible");
+
+            if (isVisible && event.key === "Enter" ){
+                confirmBtn.click();
+            }
+        })
+
+        confirmBtn.onclick = (event) => {
+            if (event.type === "click" ){
+                // Allow other interactions
+                this.model.toggleConfirmDialogOpen();
 
 
-            //Get the new Data
-            let title = document.getElementById("edit-song-modal-title-textfield").value;
-            let artist = document.getElementById("edit-song-modal-artist-textfield").value;
-            let youTubeId = document.getElementById("edit-song-modal-youTubeId-textfield").value;
-            let year = document.getElementById("edit-song-modal-year-textfield").value;
+                //Get the new Data
+                let title = document.getElementById("edit-song-modal-title-textfield").value;
+                let artist = document.getElementById("edit-song-modal-artist-textfield").value;
+                let youTubeId = document.getElementById("edit-song-modal-youTubeId-textfield").value;
+                let year = document.getElementById("edit-song-modal-year-textfield").value;
 
-            //Update the data
-            //Add to the Transaction
-            let editSongIndex = this.model.getEditSongIndex();
-            this.model.addTransactionToEditSong(editSongIndex, title, artist, youTubeId, year);
+                //Update the data
+                //Add to the Transaction
+                let editSongIndex = this.model.getEditSongIndex();
+                this.model.addTransactionToEditSong(editSongIndex, title, artist, youTubeId, year);
 
 
-            //Close the modal
-            let editSongModal = document.getElementById("edit-song-modal");
-            editSongModal.classList.remove("is-visible");
-
+                //Close the modal
+                let editSongModal = document.getElementById("edit-song-modal");
+                editSongModal.classList.remove("is-visible");
+            }
         }
 
         // RESPOND TO THE USER CONFIRMING TO DELETE A PLAYLIST

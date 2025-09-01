@@ -3,7 +3,7 @@
  * by the jsTPS class in a transaction stack. Each transaction can be done
  * and the undone, which should restore the state of the application employing
  * this framework.
- * 
+ *
  * @author TheMcKillaGorilla
  * @version 2.0
  */
@@ -27,7 +27,7 @@ export class jsTPS_Transaction {
  * jsTPS serves as a transaction processing system employing a transaction
  * stack such that one can use this framework to implement undo/redo in
  * an application.
- * 
+ *
  * @author TheMcKillaGorilla
  * @version 2.0
  */
@@ -49,8 +49,8 @@ export class jsTPS {
         // EXECUTED THAT WE CAN UNDO AND THEN REDO
         this.transactions = [];
 
-        // THE TOTAL NUMBER OF VALID TRANSACTIONS IN THE STACK, INCLUDING THOSE 
-        // THAT WE MIGHT REDO, BUT NOT INCLUDING TRANSACTIONS THAT ARE LOST WHEN 
+        // THE TOTAL NUMBER OF VALID TRANSACTIONS IN THE STACK, INCLUDING THOSE
+        // THAT WE MIGHT REDO, BUT NOT INCLUDING TRANSACTIONS THAT ARE LOST WHEN
         // BRANCHING OCCURS, MEANING WHEN WE HAVE UNDONE TRANSACTIONS AND THEN
         // ADD A NEW ONE, WHICH ELIMINATES THOSE ABOVE IT IN THE STACK. NOTE THAT
         // THIS NUMBER ONLY CHANGES WHEN WE ADD A TRANSACTION.
@@ -58,7 +58,7 @@ export class jsTPS {
 
         // THE INDEX WHERE A NEW TRANSACTION WOULD BE ADDED ONTO THE STACK
         // SHOULD processTransaction BE CALLED, WHICH ADDES AND EXECUTES A
-        // TRANSACTION. NOTE THAT FOLLOWING COMBINATIONS OF UNDO AND REDO 
+        // TRANSACTION. NOTE THAT FOLLOWING COMBINATIONS OF UNDO AND REDO
         // THIS INDEX WILL BE ONE MORE THAN THE INDEX OF THE MOST RECENTLY
         // DONE TRANSACTION.
         this.topIndex = 0;
@@ -71,10 +71,10 @@ export class jsTPS {
     clearAllTransactions() {
         // REMOVE ALL THE TRANSACTIONS
         this.transactions = [];
-        
+
         // RESET THE OTHER VARIABLES TOO
-        this.topIndex = 0;      
-        this.size = 0; 
+        this.topIndex = 0;
+        this.size = 0;
     }
 
     /**
@@ -82,7 +82,7 @@ export class jsTPS {
      * that it could then be undone if necessary. Note, this does not change what
      * transactions are on the stack, just the index counter that keeps track of
      * what has been done and undone.
-     * 
+     *
      * @throws {TRANSACTION_STACK_EXCEPTION} thrown if there is no transaction on the
      * stack to do.
      */
@@ -99,7 +99,7 @@ export class jsTPS {
 
     /**
      * Accessor method for the number of transactions that can currently be done.
-     * 
+     *
      * @returns {Number} The number of transactions in the stack that can be done.
      */
     getDoSize() {
@@ -109,7 +109,7 @@ export class jsTPS {
     /**
      * Accessor method for the total number of transactions in the current stack which
      * includes those that can be done and undone.
-     * 
+     *
      * @returns {Number} The number of transactions in total in the stack.
      */
     getSize() {
@@ -118,7 +118,7 @@ export class jsTPS {
 
     /**
      * Accessor method for the number of transactions that can currently be undone.
-     * 
+     *
      * @returns {Number} The number of transactions in the stack that can be undone.
      */
     getUndoSize() {
@@ -129,7 +129,7 @@ export class jsTPS {
      * Used to check if there is an doable transaction in the stack or not, like
      * to redo a transaction, which might be useful for an application for enabling
      * a redo button.
-     * 
+     *
      * @returns true if there is a transaction in the stack that can be done,
      * false othewise.
      */
@@ -141,7 +141,7 @@ export class jsTPS {
      * Used to check if there is an undoable transaction in the stack or not, like
      * to undo a transaction, which might be useful for an application for enabling
      * an undo button.
-     * 
+     *
      * @returns true if there is a transaction in the stack that can be undone,
      * false otherwise.
      */
@@ -152,11 +152,11 @@ export class jsTPS {
     /**
      * Gets a transaction in the stack at a provided index without executing the transaction
      * or changing the stack.
-     * 
+     *
      * @param {Number} index = The index of the transaction in the stack to get, which can
      * be used to get any transaction, even those that have been undone if they are still
      * in the stack.
-     * 
+     *
      * @returns {jsTPS_Transaction} The transaction to retrieve at index in the stack, if
      * an invalid index is provided, null is returned.
      */
@@ -190,7 +190,7 @@ export class jsTPS {
      * Pushes a transaction onto the top of the transaction stack, but does not execute (do)
      * the transaction. Note, if there are transactions that can be redone when this
      * is executed they will be lost.
-     * 
+     *
      * @param {jsTPS_Transaction} transaction - The transaction object to be put at the
      * top of the stack. Note, this function does not execute the transaction and thus
      * it does not update the index of the top of the stack.
@@ -208,10 +208,10 @@ export class jsTPS {
     /**
      * Builds and returns a textual representation of the transaction processing
      * system, which summarizes the contents of the transaction stack.
-     * 
+     *
      * @returns {String} A textual representation of the transaction stack.
      */
-    toString() {        
+    toString() {
         let text = "--Number of Transactions: " + this.size + "\n";
         text += "--Top Index: " + this.topIndex + "\n";
         text += "--Current Transaction Stack:\n";
@@ -219,7 +219,7 @@ export class jsTPS {
             let jT = this.transactions[i];
             text += "----" + jT.toString() + "\n";
         }
-        return text;        
+        return text;
     }
 
     /**
@@ -228,7 +228,7 @@ export class jsTPS {
      * transactions are on the stack, just the index counter that keeps track of
      * the top of the stack, and thus which transactions would be executed for do
      * and undo operations.
-     * 
+     *
      * @throws {TRANSACTION_STACK_EXCEPTION} thrown if there is no transaction on the
      * stack to undo.
      */

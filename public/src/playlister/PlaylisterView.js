@@ -268,6 +268,8 @@ export default class PlaylisterView {
     /**
      * Implements our foolproof design strategy so that when toolbar
      * buttons cannot be used they are disabled.
+     *
+     * Brian - Modifications: Enable the Redo button
      */
     updateToolbarButtons(hasCurrentList, isConfirmDialogOpen, hasTransactionToDo, hasTransactionToUndo) {
         this.enableButton("close-button");
@@ -277,6 +279,12 @@ export default class PlaylisterView {
         }
         else {
             this.enableButton("undo-button");
+        }
+        if (!hasTransactionToDo) {
+            this.disableButton("redo-button");
+        }
+        else {
+            this.enableButton("redo-button");
         }
     }
 }

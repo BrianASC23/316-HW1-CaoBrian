@@ -388,8 +388,7 @@ export default class PlaylisterModel {
      * stack is, will modify the loaded playlist in some way and force an update to the UI.
      */
     redo() {
-        console.log(`Redo has Runned ${this.tps.hasTransactionToDo}`);
-        if (this.tps.hasTransactionToDo()) {
+        if (this.tps.hasTransactionToDo() ) {
             this.tps.doTransaction();
             this.view.updateToolbarButtons(this.hasCurrentList(),
                             this.confirmDialogOpen, this.tps.hasTransactionToDo(), this.tps.hasTransactionToUndo());
@@ -429,37 +428,6 @@ export default class PlaylisterModel {
     }
 
 
-    setEditTitle(song){
-        this.editTitle = song.title;
-    }
-
-    getEditTitle(){
-        return this.editTitle;
-    }
-
-    setEditArtist(song){
-        this.editArtist = song.artist;
-    }
-
-    getEditArtist(){
-        return this.editArtist;
-    }
-
-    setEditYoutubeId(song){
-        this.editYoutubeId = song.youTubeId;
-    }
-
-    getEditYoutubeId(){
-        return this.editYoutubeId;
-    }
-
-    setEditYear(song){
-        this.editYear = song.year;
-    }
-
-    getEditYear(){
-        return this.editYear;
-    }
 
     /**
      * Renames the currently selected list using the provided name
