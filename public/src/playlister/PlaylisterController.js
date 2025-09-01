@@ -118,10 +118,19 @@ export default class PlaylisterController {
             // NOTE THAT WE SET THE ID OF THE LIST TO REMOVE
             // IN THE MODEL OBJECT AT THE TIME THE ORIGINAL
             // BUTTON PRESS EVENT HAPPENED
+
             let deleteListId = this.model.getDeleteListId();
 
-            // DELETE THE LIST, THIS IS NOT UNDOABLE
-            this.model.deleteList(deleteListId);
+            if (deleteListId != undefined){
+
+                // DELETE THE LIST, THIS IS NOT UNDOABLE
+                this.model.deleteList(deleteListId);
+            } else{
+                // Moved To Here: (Originally in my RegisterSongHandler) PROCESS THE REMOVE SONG EVENT
+                // Doing this in order to share the "Delete Verification Modal"
+                let songIndex = this.model.getDeleteSongIndex();
+                this.model.addTransactionToRemoveSong(songIndex);
+            }
 
             // ALLOW OTHER INTERACTIONS
             this.model.toggleConfirmDialogOpen();
@@ -285,8 +294,21 @@ export default class PlaylisterController {
                 // RECORD WHICH SONG SO THE MODAL KNOWS AND UPDATE THE MODAL TEXT
                 let songIndex = Number.parseInt(event.target.id.split("-")[2]);
 
-                // PROCESS THE REMOVE SONG EVENT
-                this.model.addTransactionToRemoveSong(songIndex);
+                // Set the Delete Song Index
+                this.model.setDeleteSongIndex(songIndex);
+
+                let songToRemove = this.model.getSong(songIndex);
+                let deleteSpan = document.getElementById("delete-list-span");
+                deleteSpan.innerHTML = songToRemove.title;
+
+
+                let deleteModal = document.getElementById("delete-list-modal");
+
+                deleteModal.classList.add("is-visible");
+
+                this.model.toggleConfirmDialogOpen();
+
+                //Moved the RemoveSongFromTransaction to the Modal section
             }
 
             // NOW SETUP ALL CARD DRAGGING HANDLERS AS THE USER MAY WISH TO CHANGE

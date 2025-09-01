@@ -19,6 +19,9 @@ import PlaylistBuilder from './PlaylistBuilder.js';
  * here so that when data in this class changes it is immediately reflected
  * inside the view of the page.
  *
+ *
+ *
+ *
  * @author McKilla Gorilla
  */
 export default class PlaylisterModel {
@@ -182,7 +185,28 @@ export default class PlaylisterModel {
         } else if (this.hasCurrentList()) {
             this.view.highlightList(this.currentList.id);
         }
+
+        /**
+         * Brian - MODIFICATION:
+         *
+         * Set DeleteListID to undefined everytime I finish deleting a list.
+         * Why? Because I am sharing the "delete-list-modal" between a song and a playlist.
+         * In order to differentiate between the two I check if deleteListId is undefined.
+         * If it is undefined, that means I am deleting a song. If not, then that means I am deleting a playlist
+         */
+        this.setDeleteListId(undefined);
+
+
         this.saveLists();
+    }
+
+    /**
+     * Accessor method for getting the index of the song being deleted.
+     *
+     */
+
+    getDeleteSongIndex(){
+        return this.deleteSongIndex;
     }
 
     /**
@@ -203,6 +227,8 @@ export default class PlaylisterModel {
     }
 
     /**
+     * Brian - MODIFICATION: Made the DeleteListId to grab the index of the song I am deleting
+     *
      * Accessor method for getting the index of the list to delete. This is used
      * during the modal verification.
      *
@@ -496,6 +522,18 @@ export default class PlaylisterModel {
      */
     setDeleteListId(initId) {
         this.deleteListId = initId;
+    }
+
+    /**
+     * Brian - MODIFICATION: Made this function -> To keep track of the index of the song I am deleting
+     *
+     * Mutator method for setting the index of the song being deleted
+     *
+     * @param {number} initIndex the index of the song being deleted in the dialog
+     */
+
+    setDeleteSongIndex(initIndex){
+        this.deleteSongIndex = initIndex;
     }
 
     /**

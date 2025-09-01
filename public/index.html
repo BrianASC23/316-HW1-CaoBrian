@@ -113,13 +113,32 @@
                     Delete playlist?
                 </div>
                 <div class="modal-center">
-                    <div class="modal-center-content">
+                    <div class="modal-center-content" id="bruh">
                         Are you sure you wish to permanently delete the <span id="delete-list-span"></span> playlist?
                     </div>
                 </div>
                 <div class="modal-south">
                     <input type="button" id="delete-list-confirm-button" class="modal-button" value='Confirm' />
                     <input type="button" id="delete-list-cancel-button" class="modal-button" value='Cancel' />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL (i.e. dialog) FOR VERIFYING THE DELETION OF A SONG -->
+    <div class="modal" id="delete-song-modal" data-animation="slideInOutLeft">
+            <div class="modal-root" id='verify-delete-song-root'>
+                <div class="modal-north">
+                    Delete Song?
+                </div>
+                <div class="modal-center">
+                    <div class="modal-center-content" id="bruh">
+                        Are you sure you wish to permanently delete the <span id="delete-song-span"></span> from the playlist?
+                    </div>
+                </div>
+                <div class="modal-south">
+                    <input type="button" id="delete-song-confirm-button" class="modal-button" value='Confirm' />
+                    <input type="button" id="delete-song-cancel-button" class="modal-button" value='Cancel' />
                 </div>
             </div>
         </div>
