@@ -300,5 +300,11 @@ export default class PlaylisterView {
         } else{
             this.enableButton("add-playlist-button");
         }
+
+        // If list is not currently loaded, don't load it
+        if(!hasCurrentList){
+            this.disableButton("close-button");
+            this.disableButton("add-song-button");
+        }
     }
 }
