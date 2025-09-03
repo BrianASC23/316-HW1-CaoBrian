@@ -57,6 +57,8 @@ export default class PlaylisterModel {
     addList(listToAdd) {
         this.playlists.push(listToAdd);
         this.sortLists();
+        // Save the new list in Local Storage
+        this.saveLists();
         this.view.refreshPlaylistCards(this.playlists);
         return listToAdd;
     }
@@ -428,13 +430,13 @@ export default class PlaylisterModel {
     /**
      * Saves the edits of the song at index
      * @param {number} index The index of the song
+     * @param {title} title The title of the song
+     * @param {artist} artist The artist of the song
+     * @param {youtube} youtube The youtubeID of the song
+     * @param {year} year The year of the song
      */
     saveSong(index, title, artist, youtube, year){
         let song = this.getSong(index);
-        // this.setEditTitle(song);
-        // this.setEditArtist(song);
-        // this.setEditYoutubeId(song);
-        // this.setEditYear(song);
 
         song.title = title;
         song.artist = artist;

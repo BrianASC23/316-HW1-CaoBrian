@@ -184,6 +184,7 @@ export default class PlaylisterController {
         // Listening for if a user clicks on the "Add" button for playlist.
         document.getElementById("add-playlist-button").onclick = (event) => {
             this.model.addPlayList();
+            this.model.saveList();
         }
     }
 
