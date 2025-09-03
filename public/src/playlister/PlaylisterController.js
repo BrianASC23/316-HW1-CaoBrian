@@ -1,6 +1,10 @@
 /**
  * This class provides responses for all user interface interactions.
  *
+ * Brian - MODIFICATIONS:
+ *
+ *
+ *
  * @author McKilla Gorilla
  */
 export default class PlaylisterController {
@@ -129,7 +133,6 @@ export default class PlaylisterController {
             let deleteListModal = document.getElementById("delete-list-modal");
             deleteListModal.classList.remove("is-visible");
 
-            setDeleteSongConfirmClicked(true);
 
 
         }
@@ -164,6 +167,16 @@ export default class PlaylisterController {
             // CLOSE THE MODAL
             let deleteListModal = document.getElementById("delete-list-modal");
             deleteListModal.classList.remove("is-visible");
+        }
+
+        // Respond to the user closing the delete song modal
+        document.getElementById("delete-song-cancel-button").onclick = (event) => {
+            // Allow other interactions
+            this.model.toggleConfirmDialogOpen();
+
+            // Close the modal
+            let deleteSongModal = document.getElementById("delete-song-modal");
+            deleteSongModal.classList.remove("is-visible");
         }
     }
 
@@ -322,7 +335,7 @@ export default class PlaylisterController {
                 deleteSongModal.classList.add("is-visible");
 
 
-                // 
+                //
 
                 this.model.toggleConfirmDialogOpen();
 

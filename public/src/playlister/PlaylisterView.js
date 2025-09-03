@@ -269,7 +269,10 @@ export default class PlaylisterView {
      * Implements our foolproof design strategy so that when toolbar
      * buttons cannot be used they are disabled.
      *
-     * Brian - Modifications: Enable the Redo button
+     * Brian - Modifications:
+     *  - Enable the Redo button
+     *  - If Dialog/Modal is open, then disable all the other buttons in the background.
+     *
      */
     updateToolbarButtons(hasCurrentList, isConfirmDialogOpen, hasTransactionToDo, hasTransactionToUndo) {
         this.enableButton("close-button");
@@ -285,6 +288,17 @@ export default class PlaylisterView {
         }
         else {
             this.enableButton("redo-button");
+        }
+
+        // Make sure the toolbar buttons are disabled when the modals are opened.
+        if(isConfirmDialogOpen){
+            this.disableButton("add-song-button");
+            this.disableButton("undo-button");
+            this.disableButton("redo-button");
+            this.disableButton("close-button");
+            this.disableButton("add-playlist-button");
+        } else{
+            this.enableButton("add-playlist-button");
         }
     }
 }
