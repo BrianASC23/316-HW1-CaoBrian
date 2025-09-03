@@ -120,17 +120,7 @@ export default class PlaylisterController {
             // BUTTON PRESS EVENT HAPPENED
 
             let deleteListId = this.model.getDeleteListId();
-
-            if (deleteListId != undefined){
-
-                // DELETE THE LIST, THIS IS NOT UNDOABLE
-                this.model.deleteList(deleteListId);
-            } else{
-                // Moved To Here: (Originally in my RegisterSongHandler) PROCESS THE REMOVE SONG EVENT
-                // Doing this in order to share the "Delete Verification Modal"
-                let songIndex = this.model.getDeleteSongIndex();
-                this.model.addTransactionToRemoveSong(songIndex);
-            }
+            this.model.deleteList(deleteListId);
 
             // ALLOW OTHER INTERACTIONS
             this.model.toggleConfirmDialogOpen();
@@ -138,6 +128,32 @@ export default class PlaylisterController {
             // CLOSE THE MODAL
             let deleteListModal = document.getElementById("delete-list-modal");
             deleteListModal.classList.remove("is-visible");
+
+            setDeleteSongConfirmClicked(true);
+
+
+        }
+
+        /**
+         * Brian - MODIFICATION: DELETE SONG
+         */
+        document.getElementById("delete-song-confirm-button").onclick = (event) => {
+
+
+
+            this.model.toggleConfirmDialogOpen();
+
+            let deleteSongModal = document.getElementById("delete-song-modal");
+
+            deleteSongModal.classList.remove("is-visible");
+
+            let songIndex = this.model.getDeleteSongIndex();
+
+            this.model.addTransactionToRemoveSong(songIndex);
+
+            this.model.setDeleteSongIndex(null);
+
+
         }
 
         // RESPOND TO THE USER CLOSING THE DELETE PLAYLIST MODAL
@@ -294,22 +310,28 @@ export default class PlaylisterController {
                 // RECORD WHICH SONG SO THE MODAL KNOWS AND UPDATE THE MODAL TEXT
                 let songIndex = Number.parseInt(event.target.id.split("-")[2]);
 
-                // Set the Delete Song Index
-                this.model.setDeleteSongIndex(songIndex);
 
-                let songToRemove = this.model.getSong(songIndex);
-                let deleteSpan = document.getElementById("delete-list-span");
-                deleteSpan.innerHTML = songToRemove.title;
+                let deleteSpan = document.getElementById("delete-song-span");
+                deleteSpan.innerHTML = "";
+
+                let song = this.model.getSong(songIndex);
+                deleteSpan.appendChild(document.createTextNode(song.title));
 
 
-                let deleteModal = document.getElementById("delete-list-modal");
+                let deleteSongModal = document.getElementById("delete-song-modal");
+                deleteSongModal.classList.add("is-visible");
 
-                deleteModal.classList.add("is-visible");
+
+                // 
 
                 this.model.toggleConfirmDialogOpen();
 
-                //Moved the RemoveSongFromTransaction to the Modal section
+                // PROCESS THE REMOVE SONG EVENT
+
+                this.model.setDeleteSongIndex(songIndex);
+
             }
+
 
             // NOW SETUP ALL CARD DRAGGING HANDLERS AS THE USER MAY WISH TO CHANGE
             // THE ORDER OF SONGS IN THE PLAYLIST

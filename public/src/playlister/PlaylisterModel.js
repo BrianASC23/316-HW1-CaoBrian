@@ -200,14 +200,6 @@ export default class PlaylisterModel {
         this.saveLists();
     }
 
-    /**
-     * Accessor method for getting the index of the song being deleted.
-     *
-     */
-
-    getDeleteSongIndex(){
-        return this.deleteSongIndex;
-    }
 
     /**
      * Accessor method for getting the index of the song being edited. This represents
@@ -492,6 +484,14 @@ export default class PlaylisterModel {
 
     }
 
+    setDeleteSongIndex(index){
+        this.deleteSongIndex = index;
+    }
+
+    getDeleteSongIndex(){
+        return this.deleteSongIndex;
+    }
+
     /**
      * Saves all the playlists to the browser's local storage.
      */
@@ -524,17 +524,6 @@ export default class PlaylisterModel {
         this.deleteListId = initId;
     }
 
-    /**
-     * Brian - MODIFICATION: Made this function -> To keep track of the index of the song I am deleting
-     *
-     * Mutator method for setting the index of the song being deleted
-     *
-     * @param {number} initIndex the index of the song being deleted in the dialog
-     */
-
-    setDeleteSongIndex(initIndex){
-        this.deleteSongIndex = initIndex;
-    }
 
     /**
      * Mutator method for setting the index of the song being edited, which is used
