@@ -86,6 +86,8 @@ export default class PlaylisterView {
             songTemplate.querySelector("a").href += song.youTubeId;
             songTemplate.querySelector("a").textContent = song.title;
 
+            songTemplate.querySelector('span[class^=song-card-year]').textContent = "(" + song.year + ")";
+
             songTemplate.querySelector('span[class^="song-card-by"]').textContent = "by";
 
             //for the artist
