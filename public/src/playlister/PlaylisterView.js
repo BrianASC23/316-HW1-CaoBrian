@@ -81,6 +81,7 @@ export default class PlaylisterView {
 
             //Add the Song Number
             songTemplate.prepend(document.createTextNode(`${i + 1}. `));
+
             //for the Youtube Link
 
             songTemplate.querySelector("a").href += song.youTubeId;
@@ -299,14 +300,15 @@ export default class PlaylisterView {
             this.disableButton("redo-button");
             this.disableButton("close-button");
             this.disableButton("add-playlist-button");
-        } else{
-            this.enableButton("add-playlist-button");
         }
 
         // If list is not currently loaded, don't load it
         if(!hasCurrentList){
             this.disableButton("close-button");
             this.disableButton("add-song-button");
+            this.enableButton("add-playlist-button");
+        } else{
+            this.disableButton("add-playlist-button");
         }
     }
 }
