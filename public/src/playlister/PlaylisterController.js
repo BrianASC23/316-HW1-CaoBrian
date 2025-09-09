@@ -84,13 +84,29 @@ export default class PlaylisterController {
          */
 
         const confirmBtn = document.getElementById('edit-song-confirm-button');
-        document.addEventListener("keypress", (event) => {
-            let modal = document.getElementById("edit-song-modal");
-            let isVisible = modal.classList.contains("is-visible");
-
+        document.addEventListener("keydown", (event) => {
+            let editSongModal = document.getElementById("edit-song-modal");
+            let isVisible = editSongModal.classList.contains("is-visible");
             if (isVisible && event.key === "Enter" ){
                 confirmBtn.click();
             }
+        })
+        document.addEventListener("keydown", (event) => {
+            let removeSongModal = document.getElementById("delete-song-modal");
+            let isSongVisible = removeSongModal.classList.contains("is-visible");
+            if (isSongVisible && event.key === "Enter" ){
+                document.getElementById("delete-song-confirm-button").click();
+            }
+        })
+        document.addEventListener("keydown", (event) => {
+            let removeListModal = document.getElementById("delete-list-modal");
+            let isVisible = removeListModal.classList.contains("is-visible");
+
+            if (isVisible && event.key === "Enter" ){
+
+                document.getElementById("delete-list-confirm-button").click();
+            }
+
         })
 
         confirmBtn.onclick = (event) => {
@@ -123,17 +139,17 @@ export default class PlaylisterController {
             // IN THE MODEL OBJECT AT THE TIME THE ORIGINAL
             // BUTTON PRESS EVENT HAPPENED
 
-            let deleteListId = this.model.getDeleteListId();
-            this.model.deleteList(deleteListId);
+            if(event.type === "click"){
+                let deleteListId = this.model.getDeleteListId();
+                this.model.deleteList(deleteListId);
 
-            // ALLOW OTHER INTERACTIONS
-            this.model.toggleConfirmDialogOpen();
+                // ALLOW OTHER INTERACTIONS
+                this.model.toggleConfirmDialogOpen();
 
-            // CLOSE THE MODAL
-            let deleteListModal = document.getElementById("delete-list-modal");
-            deleteListModal.classList.remove("is-visible");
-
-
+                // CLOSE THE MODAL
+                let deleteListModal = document.getElementById("delete-list-modal");
+                deleteListModal.classList.remove("is-visible");
+            }
 
         }
 
@@ -144,17 +160,19 @@ export default class PlaylisterController {
 
 
 
-            this.model.toggleConfirmDialogOpen();
+                console.log("Removed?");
 
-            let deleteSongModal = document.getElementById("delete-song-modal");
+                let songIndex = this.model.getDeleteSongIndex();
 
-            deleteSongModal.classList.remove("is-visible");
+                this.model.addTransactionToRemoveSong(songIndex);
 
-            let songIndex = this.model.getDeleteSongIndex();
+                this.model.setDeleteSongIndex(null);
 
-            this.model.addTransactionToRemoveSong(songIndex);
+                this.model.toggleConfirmDialogOpen();
 
-            this.model.setDeleteSongIndex(null);
+                let deleteSongModal = document.getElementById("delete-song-modal");
+
+                deleteSongModal.classList.remove("is-visible");
 
 
         }
