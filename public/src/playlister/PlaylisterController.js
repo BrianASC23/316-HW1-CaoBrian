@@ -160,7 +160,6 @@ export default class PlaylisterController {
 
 
 
-                console.log("Removed?");
 
                 let songIndex = this.model.getDeleteSongIndex();
 

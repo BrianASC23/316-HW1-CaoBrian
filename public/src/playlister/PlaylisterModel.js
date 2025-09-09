@@ -152,7 +152,6 @@ export default class PlaylisterModel {
                             this.confirmDialogOpen, this.tps.hasTransactionToDo(), this.tps.hasTransactionToUndo()
 
         );
-        console.log(`redo?: ${this.tps.hasTransactionToDo()}`);
 
     }
 

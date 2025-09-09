@@ -87,12 +87,18 @@ export default class PlaylisterView {
             songTemplate.querySelector("a").href += song.youTubeId;
             songTemplate.querySelector("a").textContent = song.title;
 
+            //for the year
             songTemplate.querySelector('span[class^=song-card-year]').textContent = "(" + song.year + ")";
+            songTemplate.querySelector('.song-card-year').id = ("song-year-" + (i+1));
 
+
+            //for the by
             songTemplate.querySelector('span[class^="song-card-by"]').textContent = "by";
+            songTemplate.querySelector('.song-card-by').id = ("song-by-" + (i + 1));
 
             //for the artist
             songTemplate.querySelector('span[class^="song-card-artist"]').textContent = song.artist;
+            songTemplate.querySelector('.song-card-artist').id = ("song-artist-" + (i+1));
 
             //for the delete Button
             songTemplate.querySelector('input[id^="remove-song-"]').id += i;
